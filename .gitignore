@@ -1,7 +1,2 @@
-node_modules
-
-# Output files
-output.json
-
-# Environment variables file
 .env
+node_modules/
