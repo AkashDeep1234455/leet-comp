@@ -58,6 +58,9 @@ app.post("/company", async (req, res) => {
     }
 });
 
+app.get("/v",(req,res)=>{
+    res.json({message:"HEllp"});
+})
 
 app.listen(port, () => {
     console.log("app listening to port " + port);
