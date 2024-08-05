@@ -26,7 +26,7 @@ const corsConfig = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['POST'],
+    methods: ['POST','GET'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
@@ -71,3 +71,5 @@ app.listen(port, () => {
         console.log(err);
     });
 });
+
+module.exports = app; 
