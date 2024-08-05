@@ -58,8 +58,8 @@ app.post("/company", async (req, res) => {
     }
 });
 
-app.get("/v",(req,res)=>{
-    res.json({message:"HEllp"});
+app.get("/",(req,res)=>{
+    res.json({message:"welcome"});
 })
 
 app.listen(port, () => {
