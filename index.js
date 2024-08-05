@@ -26,12 +26,24 @@ const corsConfig = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['POST','GET'],
+    methods: ['POST', 'GET'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsConfig));
 app.use(express.json());
+
+// Middleware to add CORS headers manually
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+    }
+    next();
+});
 
 app.post("/company", async (req, res) => {
     const { questionId } = req.body;
@@ -58,9 +70,9 @@ app.post("/company", async (req, res) => {
     }
 });
 
-app.get("/",(req,res)=>{
-    res.json({message:"welcome"});
-})
+app.get("/", (req, res) => {
+    res.json({ message: "welcome" });
+});
 
 app.listen(port, () => {
     console.log("app listening to port " + port);
@@ -72,4 +84,4 @@ app.listen(port, () => {
     });
 });
 
-module.exports = app; 
+module.exports = app;
