@@ -11,39 +11,28 @@ const { Data } = require('./model/dataModel');
 const cors = require("cors");
 
 const allowedOrigins = [
-    'chrome-extension://fkmdnmdodhippleeocffkgphkbfmnjei' // Your actual Chrome extension ID
+    'chrome-extension://fkmdnmdodhippleeocffkgphkbfmnjei',
+    'https://leet-comp.vercel.app/',
+    'chrome-extension://hnhidjjgkdmnejolifgaedellilhokcj' // Your actual Chrome extension ID
 ];
 
 const corsConfig = {
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps, curl requests, etc.)
-        if (!origin) return callback(null, true);
-        
-        if (allowedOrigins.indexOf(origin) !== -1) {
+        if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            console.log(`Blocked by CORS: ${origin}`); // Log blocked origins for debugging
             callback(new Error('Not allowed by CORS'));
         }
     },
     methods: ['POST', 'GET'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization','Access-Control-Allow-Origin'],
+    credentials: true
 };
 
 app.use(cors(corsConfig));
 app.use(express.json());
 
-// Middleware to add CORS headers manually
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-    }
-    next();
-});
 
 app.post("/company", async (req, res) => {
     const { questionId } = req.body;
